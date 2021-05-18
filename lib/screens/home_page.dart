@@ -11,6 +11,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _people = 0;
+  String infoText = 'Pode Entrar!';
+
+  void _changePeople(int n) {
+    _people += n;
+    if (_people < 0) {
+      infoText = 'Mundo invertido?';
+    } else if (_people <= 10) {
+      infoText = 'Pode Entrar!';
+    } else {
+      infoText = 'Lotado';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -24,7 +38,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Pessoas: 0',
+              'Pessoas: $_people',
               style: kTextCountStyle,
             ),
             Row(
@@ -32,15 +46,29 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: CountButton(texto: '+1'),
+                  child: CountButton(
+                    texto: '+1',
+                    pressedButton: () {
+                      setState(() {
+                        _changePeople(1);
+                      });
+                    },
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: CountButton(texto: '-1'),
+                  child: CountButton(
+                    texto: '-1',
+                    pressedButton: () {
+                      setState(() {
+                        _changePeople(-1);
+                      });
+                    },
+                  ),
                 ),
               ],
             ),
-            Text('Pode Entrar!', style: kTextCountButtonStyle),
+            Text(infoText, style: kTextCountButtonStyle),
           ],
         ),
       ],
